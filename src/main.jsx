@@ -7,7 +7,10 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <NextUIProvider>
-      <App />
+
+      <main className="w-screen h-screen dark text-foreground bg-background p-8 flex items-start justify-center">
+        <App />
+      </main>
     </NextUIProvider>
   </React.StrictMode>
 );
