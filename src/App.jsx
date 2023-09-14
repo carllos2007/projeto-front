@@ -13,14 +13,12 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-
   Pagination,
 } from "@nextui-org/react";
 import { AiOutlinePlus } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { BsSearch } from 'react-icons/bs';
 import { FiChevronDown } from 'react-icons/fi';
-
 import { columns, statusOptions, encomendas } from "./tests/data";
 import { capitalize } from "./utils";
 
@@ -29,12 +27,10 @@ const statusColorMap = {
   aguardando: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["apartamento", "dataRecebimento", "status", "actions"];
 
 export default function App() {
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = useState(new Set(INITIAL_VISIBLE_COLUMNS));
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDescriptor, setSortDescriptor] = useState({
@@ -45,18 +41,12 @@ export default function App() {
 
   const hasSearchFilter = Boolean(filterValue);
 
-  const headerColumns = useMemo(() => {
-    if (visibleColumns === "all") return columns;
-
-    return columns.filter((column) => Array.from(visibleColumns).includes(column.uid));
-  }, [visibleColumns]);
-
   const filteredItems = useMemo(() => {
     let filteredEncomenda = [...encomendas];
 
     if (hasSearchFilter) {
       filteredEncomenda = filteredEncomenda.filter((encomenda) =>
-        encomenda.name.toLowerCase().includes(filterValue.toLowerCase()),
+        encomenda.apartamento.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
@@ -86,7 +76,8 @@ export default function App() {
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
-  console.log(encomendas)
+
+
   const renderCell = useCallback((encomenda, columnKey) => {
     const cellValue = encomenda[columnKey];
 
@@ -98,6 +89,12 @@ export default function App() {
           </div>
         );
       case "dataRecebimento":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small capitalize">{cellValue}</p>
+          </div>
+        );
+      case "remetente":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
@@ -273,7 +270,7 @@ export default function App() {
       onSelectionChange={setSelectedKeys}
       onSortChange={setSortDescriptor}
     >
-      <TableHeader columns={headerColumns}>
+      <TableHeader columns={columns}>
         {(column) => (
           <TableColumn
             key={column.uid}
