@@ -13,7 +13,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-  User,
+
   Pagination,
 } from "@nextui-org/react";
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -21,16 +21,15 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { BsSearch } from 'react-icons/bs';
 import { FiChevronDown } from 'react-icons/fi';
 
-import { columns, users, statusOptions } from "./tests/data";
+import { columns, statusOptions, encomendas } from "./tests/data";
 import { capitalize } from "./utils";
 
 const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  entregue: "success",
+  aguardando: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["apartamento", "dataRecebimento", "status", "actions"];
 
 export default function App() {
   const [filterValue, setFilterValue] = useState("");
@@ -53,21 +52,21 @@ export default function App() {
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredEncomenda = [...encomendas];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase()),
+      filteredEncomenda = filteredEncomenda.filter((encomenda) =>
+        encomenda.name.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status),
+      filteredEncomenda = filteredEncomenda.filter((encomenda) =>
+        Array.from(statusFilter).includes(encomenda.status),
       );
     }
 
-    return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+    return filteredEncomenda;
+  }, [encomendas, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -87,31 +86,26 @@ export default function App() {
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
-
-  const renderCell = useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  console.log(encomendas)
+  const renderCell = useCallback((encomenda, columnKey) => {
+    const cellValue = encomenda[columnKey];
 
     switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
+      case "apartamento":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">{user.team}</p>
+          </div>
+        );
+      case "dataRecebimento":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small capitalize">{cellValue}</p>
           </div>
         );
       case "status":
         return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[encomenda.status]} size="sm" variant="flat">
             {cellValue}
           </Chip>
         );
@@ -125,9 +119,8 @@ export default function App() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
+                <DropdownItem>Editar</DropdownItem>
+                <DropdownItem>Entregar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -175,7 +168,7 @@ export default function App() {
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
+            placeholder="Buscar por apartamento..."
             startContent={<BsSearch />}
             value={filterValue}
             onClear={() => onClear()}
@@ -203,36 +196,16 @@ export default function App() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<FiChevronDown className="text-small" />} variant="flat">
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+
             <Button color="primary" endContent={<AiOutlinePlus />}>
-              Add New
+              Adicionar novo
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {users.length} users</span>
+          <span className="text-default-400 text-small">Total {encomendas.length} encomendas</span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Linhas por página:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -248,9 +221,8 @@ export default function App() {
   }, [
     filterValue,
     statusFilter,
-    visibleColumns,
     onRowsPerPageChange,
-    users.length,
+    encomendas.length,
     onSearchChange,
     hasSearchFilter,
   ]);
@@ -260,8 +232,8 @@ export default function App() {
       <div className="py-2 px-2 flex justify-between items-center">
         <span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
+            ? "Todos os itens selecionados"
+            : `${selectedKeys.size} de ${filteredItems.length} selecionado`}
         </span>
         <Pagination
           isCompact
@@ -274,10 +246,10 @@ export default function App() {
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
-            Previous
+            Anterior
           </Button>
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
-            Next
+            Próximo
           </Button>
         </div>
       </div>
@@ -312,7 +284,7 @@ export default function App() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
+      <TableBody emptyContent={"Nenhuma encomenda encontrada"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
