@@ -16,8 +16,7 @@ import {
   Pagination,
 } from "@nextui-org/react";
 import { AiOutlinePlus } from 'react-icons/ai';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { BsSearch } from 'react-icons/bs';
+import { BsThreeDotsVertical, BsSearch } from 'react-icons/bs';
 import { FiChevronDown } from 'react-icons/fi';
 import { columns, statusOptions, encomendas } from "./tests/data";
 import { capitalize } from "./utils";
@@ -34,7 +33,7 @@ export default function App() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDescriptor, setSortDescriptor] = useState({
-    column: "age",
+    column: "id",
     direction: "ascending",
   });
   const [page, setPage] = useState(1);
@@ -77,55 +76,48 @@ export default function App() {
     });
   }, [sortDescriptor, items]);
 
+  const columnComponents = {
+    apartamento: (cellValue) => (
+      <div className="flex flex-col">
+        <p className="text-bold text-small capitalize">{cellValue}</p>
+      </div>
+    ),
+    dataRecebimento: (cellValue) => (
+      <div className="flex flex-col">
+        <p className="text-bold text-small capitalize">{cellValue}</p>
+      </div>
+    ),
+    remetente: (cellValue) => (
+      <div className="flex flex-col">
+        <p className="text-bold text-small capitalize">{cellValue}</p>
+      </div>
+    ),
+    status: (cellValue) => (
+      <Chip className="capitalize" color={statusColorMap[cellValue]} size="sm" variant="flat">
+        {cellValue}
+      </Chip>
+    ),
+    actions: () => (
+      <div className="relative flex justify-center items-center gap-2 w-12">
+        <Dropdown>
+          <DropdownTrigger>
+            <Button isIconOnly size="md" color="black" variant="light">
+              <BsThreeDotsVertical />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu>
+            <DropdownItem>Editar</DropdownItem>
+            <DropdownItem>Entregar</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+    ),
+  };
 
-  const renderCell = useCallback((encomenda, columnKey) => {
+  const renderCell = (encomenda, columnKey) => {
     const cellValue = encomenda[columnKey];
-
-    switch (columnKey) {
-      case "apartamento":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-          </div>
-        );
-      case "dataRecebimento":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-          </div>
-        );
-      case "remetente":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip className="capitalize" color={statusColorMap[encomenda.status]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex justify-center items-center gap-2 w-12">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="md" color="black" variant="light">
-                  <BsThreeDotsVertical />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>Editar</DropdownItem>
-                <DropdownItem>Entregar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+    return columnComponents[columnKey] ? columnComponents[columnKey](cellValue) : cellValue;
+  };
 
   const onNextPage = useCallback(() => {
     if (page < pages) {
