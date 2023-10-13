@@ -193,28 +193,32 @@ export default function App() {
             </Dropdown>
 
             <Button onPress={openModal} color="primary">
-              Adicionar novo
+              Adicionar novo +
             </Button>
             <Modal isOpen={isOpen} onClose={closeModal} placement="top-center">
               <ModalContent>
                 <ModalHeader className="flex flex-col gap-1">Cadastro de Encomendas</ModalHeader>
                 <ModalBody>
                 <Input
+                    name="apartamento"
                     autoFocus
                     label="Apartamento"
                     variant="bordered"
                   />
                   <Input
+                    name="nome"
                     autoFocus
                     label="Nome"
                     variant="bordered"
                   />
                   <Input
+                    name="remetente"
                     autoFocus
                     label="Remetente"
                     variant="bordered"
                   />
                   <Input
+                    name="data"
                     label="Data do Recebimento"
                     placeholder="."
                     type="date"
