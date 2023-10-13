@@ -20,6 +20,7 @@ import { BsThreeDotsVertical, BsSearch } from 'react-icons/bs';
 import { FiChevronDown } from 'react-icons/fi';
 import { columns, statusOptions, encomendas } from "./tests/data";
 import { capitalize } from "./utils";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Checkbox, Link } from "@nextui-org/react";
 
 const statusColorMap = {
   entregue: "success",
@@ -28,6 +29,9 @@ const statusColorMap = {
 
 
 export default function App() {
+
+  const [isOpen, setIsOpen] = useState(false);
+
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [statusFilter, setStatusFilter] = useState("all");
@@ -151,6 +155,8 @@ export default function App() {
   }, [])
 
   const topContent = useMemo(() => {
+    const closeModal = () => setIsOpen(false);
+    const openModal = () => setIsOpen(true);
     return (
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
@@ -186,9 +192,49 @@ export default function App() {
               </DropdownMenu>
             </Dropdown>
 
-            <Button color="primary" endContent={<AiOutlinePlus />}>
+            <Button onPress={openModal} color="primary">
               Adicionar novo
             </Button>
+            <Modal isOpen={isOpen} onClose={closeModal} placement="top-center">
+              <ModalContent>
+                <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+                <ModalBody>
+                  <Input
+                    autoFocus
+                    label="Email"
+                    placeholder="Enter your email"
+                    variant="bordered"
+                  />
+                  <Input
+
+                    label="Password"
+                    placeholder="Enter your password"
+                    type="password"
+                    variant="bordered"
+                  />
+                  <div className="flex py-2 px-1 justify-between">
+                    <Checkbox
+                      classNames={{
+                        label: "text-small",
+                      }}
+                    >
+                      Remember me
+                    </Checkbox>
+                    <Link color="primary" href="#" size="sm">
+                      Forgot password?
+                    </Link>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="flat" onPress={closeModal}>
+                    Close
+                  </Button>
+                  <Button color="primary" onPress={closeModal}>
+                    Sign in
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -214,6 +260,7 @@ export default function App() {
     encomendas.length,
     onSearchChange,
     hasSearchFilter,
+    isOpen
   ]);
 
   const bottomContent = useMemo(() => {
