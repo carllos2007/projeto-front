@@ -20,7 +20,7 @@ import { BsThreeDotsVertical, BsSearch } from 'react-icons/bs';
 import { FiChevronDown } from 'react-icons/fi';
 import { columns, statusOptions, encomendas } from "./tests/data";
 import { capitalize } from "./utils";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Checkbox, Link } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
 
 const statusColorMap = {
   entregue: "success",
@@ -197,40 +197,37 @@ export default function App() {
             </Button>
             <Modal isOpen={isOpen} onClose={closeModal} placement="top-center">
               <ModalContent>
-                <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+                <ModalHeader className="flex flex-col gap-1">Cadastro de Encomendas</ModalHeader>
                 <ModalBody>
+                <Input
+                    autoFocus
+                    label="Apartamento"
+                    variant="bordered"
+                  />
                   <Input
                     autoFocus
-                    label="Email"
-                    placeholder="Enter your email"
+                    label="Nome"
                     variant="bordered"
                   />
                   <Input
-
-                    label="Password"
-                    placeholder="Enter your password"
-                    type="password"
+                    autoFocus
+                    label="Remetente"
                     variant="bordered"
                   />
-                  <div className="flex py-2 px-1 justify-between">
-                    <Checkbox
-                      classNames={{
-                        label: "text-small",
-                      }}
-                    >
-                      Remember me
-                    </Checkbox>
-                    <Link color="primary" href="#" size="sm">
-                      Forgot password?
-                    </Link>
-                  </div>
+                  <Input
+                    label="Data do Recebimento"
+                    placeholder="."
+                    type="date"
+                    variant="bordered"
+                  />
+                  
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="flat" onPress={closeModal}>
-                    Close
+                   Cancelar
                   </Button>
                   <Button color="primary" onPress={closeModal}>
-                    Sign in
+                    Confirmar
                   </Button>
                 </ModalFooter>
               </ModalContent>
