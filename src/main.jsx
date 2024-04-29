@@ -10,9 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} >
       <NextUIProvider>
-        <main className="w-screen h-screen dark text-foreground bg-background p-8 flex items-start justify-center">
-          <App />
-        </main>
+        <App />
       </NextUIProvider>
     </RouterProvider>
   </React.StrictMode >
