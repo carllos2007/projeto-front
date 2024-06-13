@@ -6,17 +6,15 @@ import { MdOutlineEmail, MdLockOutline } from "react-icons/md";
 export default function Login() {
 
     return (
-        <main className="w-screen h-screen dark text-foreground bg-background items-center justify-center h-screen grid grid-cols-5 grid-rows-5 gap-4" >
-            <img className="col-span-3 row-span-5" src="src\assets\predio.png" />
-            <div className="col-span-2 row-span-5 col-start-4 flex flex-col items-center justify-center h-64">
-                <h1 className="font-bitter text-4xl">Portaria Express</h1>
+        <main className="w-screen h-screen dark text-foreground bg-background flex items-center justify-center" >
+            <img className="w-1/2" src="src\assets\predio.png" />
+            <div className="w-1/2 flex flex-col items-center justify-center">
+                <h1 className="font-bitter text-4xl mb-6">Portaria Express</h1>
+
                 <Input
-                    className="w-full max-w-md p-6"
+                    className="w-full max-w-md mb-4"
                     autoFocus
-                    endContent={
-                        <MdOutlineEmail
-                            className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                    }
+                    endContent={<MdOutlineEmail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
                     label="Email"
                     placeholder="Digite seu email"
                     variant="bordered"
@@ -24,21 +22,19 @@ export default function Login() {
                     type="email"
                 />
                 <Input
-                    className="w-full max-w-md p-6"
+                    className="w-full max-w-md mb-4"
                     isRequired
-                    endContent={
-                        <MdLockOutline className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                    }
+                    endContent={<MdLockOutline className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
                     label="Senha"
                     placeholder="Digite sua senha"
                     type="password"
                     variant="bordered"
                 />
 
-                <Button color="primary" onPress={console.log('logar')}>
+                <Button color="primary" onPress={() => console.log('logar')} className="w-full max-w-md mb-4">
                     Entrar
                 </Button>
             </div>
-        </main>
+        </main >
     );
 }
