@@ -9,6 +9,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      'bitter': ['Bitter', 'serif'],
+    },
   },
   darkMode: "class",
   plugins: [nextui()],
