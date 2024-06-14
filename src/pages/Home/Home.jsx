@@ -19,7 +19,7 @@ import { BsThreeDotsVertical, BsSearch } from 'react-icons/bs';
 import { FiChevronDown } from 'react-icons/fi';
 import { columns, statusOptions, encomendas } from "../../tests/data";
 import { capitalize } from "../../utils";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
+import ModalAddNew from "../../components/ModalAddNew/ModalAddNew";
 
 const statusColorMap = {
   entregue: "success",
@@ -88,7 +88,32 @@ export default function App() {
         <p className="text-bold text-small capitalize">{cellValue}</p>
       </div>
     ),
+    dataRetirada: (cellValue) => (
+      <div className="flex flex-col">
+        <p className="text-bold text-small capitalize">{cellValue}</p>
+      </div>
+    ),
     remetente: (cellValue) => (
+      <div className="flex flex-col">
+        <p className="text-bold text-small capitalize">{cellValue}</p>
+      </div>
+    ),
+    destinatario: (cellValue) => (
+      <div className="flex flex-col">
+        <p className="text-bold text-small capitalize">{cellValue}</p>
+      </div>
+    ),
+    recebidoPor: (cellValue) => (
+      <div className="flex flex-col">
+        <p className="text-bold text-small capitalize">{cellValue}</p>
+      </div>
+    ),
+    entreguePor: (cellValue) => (
+      <div className="flex flex-col">
+        <p className="text-bold text-small capitalize">{cellValue}</p>
+      </div>
+    ),
+    nomePessoaPegou: (cellValue) => (
       <div className="flex flex-col">
         <p className="text-bold text-small capitalize">{cellValue}</p>
       </div>
@@ -190,47 +215,8 @@ export default function App() {
             <Button onPress={openModal} color="primary">
               Adicionar novo +
             </Button>
-            <Modal isOpen={isOpen} onClose={closeModal} placement="top-center">
-              <ModalContent>
-                <ModalHeader className="flex flex-col gap-1">Cadastro de Encomendas</ModalHeader>
-                <ModalBody>
-                  <Input
-                    name="apartamento"
-                    autoFocus
-                    label="Apartamento"
-                    variant="bordered"
-                  />
-                  <Input
-                    name="nome"
-                    autoFocus
-                    label="Nome"
-                    variant="bordered"
-                  />
-                  <Input
-                    name="remetente"
-                    autoFocus
-                    label="Remetente"
-                    variant="bordered"
-                  />
-                  <Input
-                    name="data"
-                    label="Data do Recebimento"
-                    placeholder="."
-                    type="date"
-                    variant="bordered"
-                  />
+            <ModalAddNew isOpen={isOpen} onClose={closeModal} />
 
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="danger" variant="flat" onPress={closeModal}>
-                    Cancelar
-                  </Button>
-                  <Button color="primary" onPress={closeModal}>
-                    Confirmar
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
           </div>
         </div>
         <div className="flex justify-between items-center">

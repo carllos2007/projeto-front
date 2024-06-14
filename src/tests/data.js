@@ -2,7 +2,12 @@ const columns = [
   { name: "ID", uid: "id", sortable: true },
   { name: "APARTAMENTO", uid: "apartamento", sortable: true },
   { name: "REMETENTE", uid: "remetente", sortable: true },
+  { name: "DESTINATARIO", uid: "destinatario", sortable: true },
   { name: "DATA DE RECEBIMENTO", uid: "dataRecebimento", sortable: true },
+  { name: "DATA DE RETIRADA", uid: "dataRetirada", sortable: true },
+  { name: "RECEBIDO POR", uid: "recebidoPor", sortable: true },
+  { name: "ENTREGUE POR", uid: "entreguePor", sortable: true },
+  { name: "ENTREGUE AO MORADOR", uid: "nomePessoaPegou", sortable: true },
   { name: "STATUS", uid: "status", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
@@ -17,74 +22,43 @@ const encomendas = [
     id: 1,
     apartamento: '165 A',
     dataRecebimento: '14/09/23',
+    dataRetirada: "16/09/2023",
     status: 'entregue',
     recebidoPor: 'Porteiro josé',
     entreguePor: 'Porteiro moises',
-    remetente: 'Mercado Livre'
+    remetente: 'Mercado Livre',
+    destinatario: "Mariazinha",
+    nomePessoaPegou: "Joaozinho",
+    cpfPessoaPegou: "12345678900"
+  },
+
+  {
+    "id": 2,
+    "apartamento": "205 B",
+    "dataRecebimento": "15/09/23",
+    "dataRetirada": null,
+    "status": "aguardando",
+    "recebidoPor": "Porteiro Lucas",
+    "entreguePor": null,
+    "remetente": "Amazon",
+    "destinatario": "José",
+    "nomePessoaPegou": null,
+    "cpfPessoaPegou": null
   },
   {
-    id: 2,
-    apartamento: '45 A',
-    dataRecebimento: '14/09/23',
-    status: 'entregue',
-    recebidoPor: 'Porteiro josé',
-    entreguePor: 'Porteiro moises',
-    remetente: 'Mercado Livre'
-  },
-  {
-    id: 3,
-    apartamento: '65 B',
-    dataRecebimento: '14/09/23',
-    status: 'aguardando',
-    recebidoPor: 'Porteiro josé',
-    entreguePor: 'Porteiro moises',
-    remetente: 'Mercado Livre'
-  },
-  {
-    id: 4,
-    apartamento: '17 A',
-    dataRecebimento: '14/09/23',
-    status: 'entregue',
-    recebidoPor: 'Porteiro josé',
-    entreguePor: 'Porteiro moises',
-    remetente: 'Mercado Livre'
-  },
-  {
-    id: 5,
-    apartamento: '14 A',
-    dataRecebimento: '14/09/23',
-    status: 'aguardando',
-    recebidoPor: 'Porteiro josé',
-    entreguePor: 'Porteiro moises',
-    remetente: 'Mercado Livre'
-  },
-  {
-    id: 6,
-    apartamento: '16 B',
-    dataRecebimento: '14/09/23',
-    status: 'entregue',
-    recebidoPor: 'Porteiro josé',
-    entreguePor: 'Porteiro moises',
-    remetente: 'Mercado Livre'
-  },
-  {
-    id: 7,
-    apartamento: '12 A',
-    dataRecebimento: '14/09/23',
-    status: 'aguardando',
-    recebidoPor: 'Porteiro josé',
-    entreguePor: 'Porteiro moises',
-    remetente: 'Mercado Livre'
-  },
-  {
-    id: 8,
-    apartamento: '34 A',
-    dataRecebimento: '14/09/23',
-    status: 'entregue',
-    recebidoPor: 'Porteiro josé',
-    entreguePor: 'Porteiro moises',
-    remetente: 'Mercado Livre'
-  },
+    "id": 3,
+    "apartamento": "301 C",
+    "dataRecebimento": "16/09/23",
+    "dataRetirada": null,
+    "status": "aguardando",
+    "recebidoPor": "Porteiro Pedro",
+    "entreguePor": null,
+    "remetente": "Americanas",
+    "destinatario": "João",
+    "nomePessoaPegou": null,
+    "cpfPessoaPegou": null
+  }
+
 ];
 
 
