@@ -1,5 +1,5 @@
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import { Input } from "postcss";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input } from "@nextui-org/react";
+
 
 const ModalAddNew = ({ isOpen, closeModal }) => {
   return (
