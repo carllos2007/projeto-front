@@ -30,9 +30,7 @@ const statusColorMap = {
 export default function App() {
 
   const [isOpen, setIsOpen] = useState(false);
-
   const [filterValue, setFilterValue] = useState("");
-  const [selectedKeys, setSelectedKeys] = useState(new Set([]));
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [sortDescriptor, setSortDescriptor] = useState({
@@ -179,8 +177,6 @@ export default function App() {
                 disallowEmptySelection
                 aria-label="Table Columns"
                 closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
                 onSelectionChange={setStatusFilter}
               >
                 {statusOptions.map((status) => (
@@ -266,11 +262,6 @@ export default function App() {
   const bottomContent = useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        <span className="w-[30%] text-small text-default-400">
-          {selectedKeys === "all"
-            ? "Todos os itens selecionados"
-            : `${selectedKeys.size} de ${filteredItems.length} selecionado`}
-        </span>
         <Pagination
           isCompact
           showControls
@@ -290,7 +281,7 @@ export default function App() {
         </div>
       </div>
     );
-  }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+  }, [items.length, page, pages, hasSearchFilter]);
 
   return (
     <main className="w-screen h-screen dark text-foreground bg-background p-8 flex items-start justify-center">
@@ -303,12 +294,9 @@ export default function App() {
         classNames={{
           wrapper: "max-h-[382px]",
         }}
-        selectedKeys={selectedKeys}
-        selectionMode="multiple"
         sortDescriptor={sortDescriptor}
         topContent={topContent}
         topContentPlacement="outside"
-        onSelectionChange={setSelectedKeys}
         onSortChange={setSortDescriptor}
       >
         <TableHeader columns={columns}>
