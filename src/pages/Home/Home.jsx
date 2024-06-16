@@ -8,18 +8,13 @@ import {
   TableCell,
   Input,
   Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
   Chip,
   Pagination,
 } from "@nextui-org/react";
-import { BsThreeDotsVertical, BsSearch } from 'react-icons/bs';
-import { FiChevronDown } from 'react-icons/fi';
+import { BsSearch } from 'react-icons/bs';
+import { LuPackageCheck } from "react-icons/lu";
 import { columns, statusOptions, encomendas } from "../../tests/data";
-import { capitalize } from "../../utils";
-import ModalAddNew from "../../components/ModalAddNew/ModalAddNew";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
 
 const statusColorMap = {
   entregue: "success",
@@ -30,6 +25,7 @@ const statusColorMap = {
 export default function App() {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModalDelivery, setIsOpenModalDelivery] = useState(false);
   const [filterValue, setFilterValue] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -77,6 +73,7 @@ export default function App() {
     });
   }, [sortDescriptor, items]);
 
+
   const columnComponents = {
     apartamento: (cellValue) => (
       <div className="flex flex-col">
@@ -123,19 +120,42 @@ export default function App() {
         {cellValue}
       </Chip>
     ),
-    actions: () => (
-      <div className="relative flex justify-center items-center gap-2 w-12">
-        <Dropdown>
-          <DropdownTrigger>
-            <Button isIconOnly size="md" color="black" variant="light">
-              <BsThreeDotsVertical />
+    entregar: () => (
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between gap-3 items-end">
+          <div className="flex gap-3">
+            <Button onClick={() => setIsOpenModalDelivery(true)} color="warning" variant="light" aria-label="entregar">
+              <LuPackageCheck />
             </Button>
-          </DropdownTrigger>
-          <DropdownMenu>
-            <DropdownItem>Editar</DropdownItem>
-            <DropdownItem>Entregar</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+            <Modal isOpen={isOpenModalDelivery} onClose={() => setIsOpenModalDelivery(false)} placement="top-center">
+              <ModalContent>
+                <ModalHeader className="flex flex-col gap-1">Entrega de Encomendas</ModalHeader>
+                <ModalBody>
+                  <Input
+                    name="nome"
+                    autoFocus
+                    label="Nome"
+                    variant="bordered"
+                  />
+                  <Input
+                    name="cpf"
+                    autoFocus
+                    label="CPF"
+                    variant="bordered"
+                  />
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="flat" onClick={() => setIsOpenModalDelivery(false)}>
+                    Cancelar
+                  </Button>
+                  <Button color="primary" onClick={() => setIsOpenModalDelivery(false)}>
+                    Confirmar
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </div>
+        </div>
       </div>
     ),
   };
@@ -176,9 +196,9 @@ export default function App() {
     setPage(1)
   }, [])
 
+  const closeModal = () => setIsOpen(false);
+  const openModal = () => setIsOpen(true);
   const topContent = useMemo(() => {
-    const closeModal = () => setIsOpen(false);
-    const openModal = () => setIsOpen(true);
     return (
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
@@ -195,7 +215,47 @@ export default function App() {
             <Button onPress={openModal} color="primary">
               Adicionar novo +
             </Button>
-            <ModalAddNew isOpen={isOpen} onClose={closeModal} />
+            <Modal isOpen={isOpen} onClose={closeModal} placement="top-center">
+              <ModalContent>
+                <ModalHeader className="flex flex-col gap-1">Cadastro de Encomendas</ModalHeader>
+                <ModalBody>
+                  <Input
+                    name="apartamento"
+                    autoFocus
+                    label="Apartamento"
+                    variant="bordered"
+                  />
+                  <Input
+                    name="nome"
+                    autoFocus
+                    label="Nome"
+                    variant="bordered"
+                  />
+                  <Input
+                    name="remetente"
+                    autoFocus
+                    label="Remetente"
+                    variant="bordered"
+                  />
+                  <Input
+                    name="data"
+                    label="Data do Recebimento"
+                    placeholder="."
+                    type="date"
+                    variant="bordered"
+                  />
+
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="flat" onPress={closeModal}>
+                    Cancelar
+                  </Button>
+                  <Button color="primary" onPress={closeModal}>
+                    Confirmar
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
 
           </div>
         </div>
@@ -253,7 +313,7 @@ export default function App() {
     <main className="w-screen h-screen dark text-foreground bg-background p-8 flex items-start justify-center">
 
       <Table
-        aria-label="Example table with custom cells, pagination and sorting"
+        aria-label="Listagem de encomendas"
         isHeaderSticky
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
@@ -269,7 +329,7 @@ export default function App() {
           {(column) => (
             <TableColumn
               key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}
+              align={column.uid === "entregar" ? "center" : "start"}
               allowsSorting={column.sortable}
             >
               {column.name}

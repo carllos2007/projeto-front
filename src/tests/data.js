@@ -9,7 +9,7 @@ const columns = [
   { name: "ENTREGUE POR", uid: "entreguePor", sortable: true },
   { name: "ENTREGUE AO MORADOR", uid: "nomePessoaPegou", sortable: true },
   { name: "STATUS", uid: "status", sortable: true },
-  { name: "ACTIONS", uid: "actions" },
+  { name: "ENTREGAR", uid: "entregar" },
 ];
 
 const statusOptions = [
